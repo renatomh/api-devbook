@@ -27,6 +27,10 @@ During the development of this project, the following techologies were used:
 
 * The project was developed using MySQL;
 
+## 🌐 Setting up config files
+
+Create an *.env* file on the root directory, with all needed variables, credentials and API keys, according to the sample provided (*example.env*).
+
 ## ⏯️ Running
 
 To run the application locally, execute the following command on the root directory (it'll show the application's available commands and options).
