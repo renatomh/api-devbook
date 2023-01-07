@@ -23,6 +23,10 @@ During the development of this project, the following techologies were used:
 
 ### First, you must [install Go](https://go.dev/dl/) on your computer.
 
+### Create the database tables according to the provided SQL scripts (located on the *sql* folder).
+
+* The project was developed using MySQL;
+
 ## ⏯️ Running
 
 To run the application locally, execute the following command on the root directory (it'll show the application's available commands and options).
