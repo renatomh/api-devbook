@@ -28,6 +28,13 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// Preparing user for insertion on database
+	if err := user.Preare(); err != nil {
+		// If somethiing goes wrong, we call the error response handling function
+		responses.Error(w, http.StatusBadRequest, err)
+		return
+	}
+
 	// Connecting to the database
 	db, err := database.Connect()
 	if err != nil {
