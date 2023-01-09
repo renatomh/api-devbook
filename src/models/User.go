@@ -8,12 +8,12 @@ import (
 
 // User represents a social network user
 type User struct {
-	ID        uint64    `json:"id,onitempty"`
-	Name      string    `json:"name,onitempty"`
-	Username  string    `json:"username,onitempty"`
-	Email     string    `json:"email,onitempty"`
-	Pass      string    `json:"pass,onitempty"`
-	CreatedAt time.Time `json:"createdAt,onitempty"`
+	ID        uint64    `json:"id,omitempty"`
+	Name      string    `json:"name,omitempty"`
+	Username  string    `json:"username,omitempty"`
+	Email     string    `json:"email,omitempty"`
+	Pass      string    `json:"pass,omitempty"`
+	CreatedAt time.Time `json:"createdAt,omitempty"`
 }
 
 // Prepare method calls the other methods to adeuqate user instance for insertion on database
