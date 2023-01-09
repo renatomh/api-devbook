@@ -4,10 +4,9 @@ import (
 	"api/src/database"
 	"api/src/models"
 	"api/src/repositories"
+	"api/src/responses"
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
-	"log"
 	"net/http"
 )
 
@@ -16,31 +15,40 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 	// Getting request body
 	requestBody, err := ioutil.ReadAll(r.Body)
 	if err != nil {
-		log.Fatal(err)
+		// If somethiing goes wrong, we call the error response handling function
+		responses.Error(w, http.StatusUnprocessableEntity, err)
+		return
 	}
 
 	// Initializing the user, reading data from the request body
 	var user models.User
 	if err = json.Unmarshal(requestBody, &user); err != nil {
-		log.Fatal(err)
+		// If somethiing goes wrong, we call the error response handling function
+		responses.Error(w, http.StatusBadRequest, err)
+		return
 	}
 
 	// Connecting to the database
 	db, err := database.Connect()
 	if err != nil {
-		log.Fatal(err)
+		// If somethiing goes wrong, we call the error response handling function
+		responses.Error(w, http.StatusInternalServerError, err)
+		return
 	}
+	defer db.Close()
 
 	// Creating the users' repository
 	repository := repositories.NewUsersRepository(db)
 	// Creating a new user on the repository
-	userId, err := repository.Create(user)
+	user.ID, err = repository.Create(user)
 	if err != nil {
-		log.Fatal(err)
+		// If somethiing goes wrong, we call the error response handling function
+		responses.Error(w, http.StatusInternalServerError, err)
+		return
 	}
 
 	// If everything is ok
-	w.Write([]byte(fmt.Sprintf("Inserted ID: %d", userId)))
+	responses.JSON(w, http.StatusCreated, user)
 }
 
 // SearchUsers searchs all users from the database
