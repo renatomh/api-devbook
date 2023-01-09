@@ -8,6 +8,7 @@ import (
 	"encoding/json"
 	"io/ioutil"
 	"net/http"
+	"strings"
 )
 
 // CreateUser inserts a new user on the database
@@ -60,7 +61,30 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 
 // SearchUsers searchs all users from the database
 func SearchUsers(w http.ResponseWriter, r *http.Request) {
-	w.Write(([]byte("Searching all users!")))
+	// Getting the name or username to be used while filtering users on database
+	nameOrUsername := strings.ToLower(r.URL.Query().Get(("user")))
+
+	// Connecting to the database
+	db, err := database.Connect()
+	if err != nil {
+		// If somethiing goes wrong, we call the error response handling function
+		responses.Error(w, http.StatusInternalServerError, err)
+		return
+	}
+	defer db.Close()
+
+	// Creating the users' repository
+	repository := repositories.NewUsersRepository(db)
+	// Searching users on the repository
+	users, err := repository.Search(nameOrUsername)
+	if err != nil {
+		// If somethiing goes wrong, we call the error response handling function
+		responses.Error(w, http.StatusInternalServerError, err)
+		return
+	}
+
+	// Returning users response
+	responses.JSON(w, http.StatusOK, users)
 }
 
 // SearchUser search a specific user from the database

@@ -9,7 +9,7 @@ import (
 // JSON returns a JSON response to the request
 func JSON(w http.ResponseWriter, statusCode int, data interface{}) {
 	// Setting the content type
-	w.Header().Add("Content-Type", "application/json")
+	w.Header().Set("Content-Type", "application/json")
 	// Setting the response status code
 	w.WriteHeader(statusCode)
 
