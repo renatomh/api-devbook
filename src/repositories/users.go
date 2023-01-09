@@ -79,3 +79,36 @@ func (repository Users) Search(nameOrUsername string) ([]models.User, error) {
 	// Returning the users slice
 	return users, nil
 }
+
+// SearchByID a specific user by its ID
+func (repository Users) SearchByID(ID uint64) (models.User, error) {
+	// Executing the select statement (we won't return the users passwords)
+	rows, err := repository.db.Query(
+		"select id, name, username, email, createdAt from users where ID = ?",
+		ID,
+	)
+	if err != nil {
+		// We return an empty user if an error occurs
+		return models.User{}, err
+	}
+	defer rows.Close()
+
+	// Reading row data
+	var user models.User
+	if rows.Next() {
+		// Getting user
+		if err = rows.Scan(
+			&user.ID,
+			&user.Name,
+			&user.Username,
+			&user.Email,
+			&user.CreatedAt,
+		); err != nil {
+			// We return an empty user if an error occurs
+			return models.User{}, err
+		}
+	}
+
+	// Returning the user data
+	return user, nil
+}
