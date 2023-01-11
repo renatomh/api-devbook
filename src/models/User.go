@@ -4,6 +4,8 @@ import (
 	"errors"
 	"strings"
 	"time"
+
+	"github.com/badoux/checkmail"
 )
 
 // User represents a social network user
@@ -36,6 +38,9 @@ func (user *User) validate(action string) error {
 	}
 	if user.Email == "" {
 		return errors.New("Email is a required field, cannot be left blank")
+	}
+	if err := checkmail.ValidateFormat(user.Email); err != nil {
+		return errors.New("Email format is not valid")
 	}
 	if action == "register" && user.Pass == "" {
 		return errors.New("Pass is a required field, cannot be left blank")
