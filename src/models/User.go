@@ -1,6 +1,7 @@
 package models
 
 import (
+	"api/src/security"
 	"errors"
 	"strings"
 	"time"
@@ -23,7 +24,9 @@ func (user *User) Preare(action string) error {
 	if err := user.validate(action); err != nil {
 		return err
 	}
-	user.format()
+	if err := user.format(action); err != nil {
+		return err
+	}
 	return nil
 }
 
@@ -51,9 +54,22 @@ func (user *User) validate(action string) error {
 }
 
 // format updates user fields, in order to meet the desired format
-func (user *User) format() {
+func (user *User) format(action string) error {
 	// Removing trailing/leading spaces
 	user.Name = strings.TrimSpace(user.Name)
 	user.Username = strings.TrimSpace(user.Username)
 	user.Email = strings.TrimSpace(user.Email)
+
+	// When registering a new user
+	if action == "register" {
+		// Creating the hash for the user password
+		hashPass, err := security.Hash(user.Pass)
+		if err != nil {
+			return err
+		}
+		// If everything is ok, we'll save the hash pass for the user
+		user.Pass = string(hashPass)
+	}
+
+	return nil
 }
