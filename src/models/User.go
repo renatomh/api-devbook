@@ -17,8 +17,8 @@ type User struct {
 }
 
 // Prepare method calls the other methods to adeuqate user instance for insertion on database
-func (user *User) Preare() error {
-	if err := user.validate(); err != nil {
+func (user *User) Preare(action string) error {
+	if err := user.validate(action); err != nil {
 		return err
 	}
 	user.format()
@@ -26,7 +26,7 @@ func (user *User) Preare() error {
 }
 
 // validate checks if user instance is valid
-func (user *User) validate() error {
+func (user *User) validate(action string) error {
 	// If an error is identified
 	if user.Name == "" {
 		return errors.New("Name is a required field, cannot be left blank")
@@ -37,7 +37,7 @@ func (user *User) validate() error {
 	if user.Email == "" {
 		return errors.New("Email is a required field, cannot be left blank")
 	}
-	if user.Pass == "" {
+	if action == "register" && user.Pass == "" {
 		return errors.New("Pass is a required field, cannot be left blank")
 	}
 

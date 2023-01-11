@@ -13,9 +13,12 @@ func JSON(w http.ResponseWriter, statusCode int, data interface{}) {
 	// Setting the response status code
 	w.WriteHeader(statusCode)
 
-	// Returning data as JSON
-	if err := json.NewEncoder(w).Encode(data); err != nil {
-		log.Fatal(err)
+	// If any data was provided
+	if data != nil {
+		// Returning data as JSON
+		if err := json.NewEncoder(w).Encode(data); err != nil {
+			log.Fatal(err)
+		}
 	}
 }
 
