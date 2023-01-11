@@ -132,3 +132,21 @@ func (repository Users) Update(ID uint64, user models.User) error {
 	// Returning the function
 	return nil
 }
+
+// Delete removes a specific user from the database
+func (repository Users) Delete(ID uint64) error {
+	// Preparing the statement to execute the SQL query
+	statement, err := repository.db.Prepare("delete from users where id = ?")
+	if err != nil {
+		return err
+	}
+	defer statement.Close()
+
+	// Executing the delete statement
+	if _, err = statement.Exec(ID); err != nil {
+		return err
+	}
+
+	// Returning the function
+	return nil
+}

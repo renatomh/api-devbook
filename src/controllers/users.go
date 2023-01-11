@@ -19,7 +19,7 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 	// Getting request body
 	requestBody, err := ioutil.ReadAll(r.Body)
 	if err != nil {
-		// If somethiing goes wrong, we call the error response handling function
+		// If something goes wrong, we call the error response handling function
 		responses.Error(w, http.StatusUnprocessableEntity, err)
 		return
 	}
@@ -27,14 +27,14 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 	// Initializing the user, reading data from the request body
 	var user models.User
 	if err = json.Unmarshal(requestBody, &user); err != nil {
-		// If somethiing goes wrong, we call the error response handling function
+		// If something goes wrong, we call the error response handling function
 		responses.Error(w, http.StatusBadRequest, err)
 		return
 	}
 
 	// Preparing user for insertion on database
 	if err := user.Preare("register"); err != nil {
-		// If somethiing goes wrong, we call the error response handling function
+		// If something goes wrong, we call the error response handling function
 		responses.Error(w, http.StatusBadRequest, err)
 		return
 	}
@@ -42,7 +42,7 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 	// Connecting to the database
 	db, err := database.Connect()
 	if err != nil {
-		// If somethiing goes wrong, we call the error response handling function
+		// If something goes wrong, we call the error response handling function
 		responses.Error(w, http.StatusInternalServerError, err)
 		return
 	}
@@ -53,7 +53,7 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 	// Creating a new user on the repository
 	user.ID, err = repository.Create(user)
 	if err != nil {
-		// If somethiing goes wrong, we call the error response handling function
+		// If something goes wrong, we call the error response handling function
 		responses.Error(w, http.StatusInternalServerError, err)
 		return
 	}
@@ -70,7 +70,7 @@ func SearchUsers(w http.ResponseWriter, r *http.Request) {
 	// Connecting to the database
 	db, err := database.Connect()
 	if err != nil {
-		// If somethiing goes wrong, we call the error response handling function
+		// If something goes wrong, we call the error response handling function
 		responses.Error(w, http.StatusInternalServerError, err)
 		return
 	}
@@ -81,7 +81,7 @@ func SearchUsers(w http.ResponseWriter, r *http.Request) {
 	// Searching users on the repository
 	users, err := repository.Search(nameOrUsername)
 	if err != nil {
-		// If somethiing goes wrong, we call the error response handling function
+		// If something goes wrong, we call the error response handling function
 		responses.Error(w, http.StatusInternalServerError, err)
 		return
 	}
@@ -105,7 +105,7 @@ func SearchUser(w http.ResponseWriter, r *http.Request) {
 	// Connecting to the database
 	db, err := database.Connect()
 	if err != nil {
-		// If somethiing goes wrong, we call the error response handling function
+		// If something goes wrong, we call the error response handling function
 		responses.Error(w, http.StatusInternalServerError, err)
 		return
 	}
@@ -116,7 +116,7 @@ func SearchUser(w http.ResponseWriter, r *http.Request) {
 	// Searching user on the repository
 	user, err := repository.SearchByID(userID)
 	if err != nil {
-		// If somethiing goes wrong, we call the error response handling function
+		// If something goes wrong, we call the error response handling function
 		responses.Error(w, http.StatusInternalServerError, err)
 		return
 	}
@@ -140,7 +140,7 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 	// Getting request body
 	requestBody, err := ioutil.ReadAll(r.Body)
 	if err != nil {
-		// If somethiing goes wrong, we call the error response handling function
+		// If something goes wrong, we call the error response handling function
 		responses.Error(w, http.StatusUnprocessableEntity, err)
 		return
 	}
@@ -148,14 +148,14 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 	// Initializing the user, reading data from the request body
 	var user models.User
 	if err = json.Unmarshal(requestBody, &user); err != nil {
-		// If somethiing goes wrong, we call the error response handling function
+		// If something goes wrong, we call the error response handling function
 		responses.Error(w, http.StatusBadRequest, err)
 		return
 	}
 
 	// Preparing user for insertion on database
 	if err := user.Preare("edit"); err != nil {
-		// If somethiing goes wrong, we call the error response handling function
+		// If something goes wrong, we call the error response handling function
 		responses.Error(w, http.StatusBadRequest, err)
 		return
 	}
@@ -163,7 +163,7 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 	// Connecting to the database
 	db, err := database.Connect()
 	if err != nil {
-		// If somethiing goes wrong, we call the error response handling function
+		// If something goes wrong, we call the error response handling function
 		responses.Error(w, http.StatusInternalServerError, err)
 		return
 	}
@@ -173,7 +173,7 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 	repository := repositories.NewUsersRepository(db)
 	// Updating an existing user on the repository
 	if err = repository.Update(userID, user); err != nil {
-		// If somethiing goes wrong, we call the error response handling function
+		// If something goes wrong, we call the error response handling function
 		responses.Error(w, http.StatusInternalServerError, err)
 		return
 	}
@@ -184,5 +184,34 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 
 // DeletehUser removes a specific user from the database
 func DeleteUser(w http.ResponseWriter, r *http.Request) {
-	w.Write(([]byte("Deleting user!")))
+	// Getting the request parameters
+	params := mux.Vars(r)
+
+	// Getting the user ID
+	userID, err := strconv.ParseUint(params["userId"], 10, 64)
+	if err != nil {
+		responses.Error(w, http.StatusBadRequest, err)
+		return
+	}
+
+	// Connecting to the database
+	db, err := database.Connect()
+	if err != nil {
+		// If something goes wrong, we call the error response handling function
+		responses.Error(w, http.StatusInternalServerError, err)
+		return
+	}
+	defer db.Close()
+
+	// Creating the users' repository
+	repository := repositories.NewUsersRepository(db)
+	// Deleting an existing user from the repository
+	if err = repository.Delete(userID); err != nil {
+		// If something goes wrong, we call the error response handling function
+		responses.Error(w, http.StatusInternalServerError, err)
+		return
+	}
+
+	// If everything is ok
+	responses.JSON(w, http.StatusNoContent, nil)
 }
