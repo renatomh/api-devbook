@@ -150,3 +150,30 @@ func (repository Users) Delete(ID uint64) error {
 	// Returning the function
 	return nil
 }
+
+// SearchByEmail a specific user by its email, as well as its hashpass (for login purposes)
+func (repository Users) SearchByEmail(email string) (models.User, error) {
+	// Executing the select statement (we will get only ID, the email and hash password)
+	rows, err := repository.db.Query("select id, pass from users where email = ?", email)
+	if err != nil {
+		// We return an empty user if an error occurs
+		return models.User{}, err
+	}
+	defer rows.Close()
+
+	// Reading row data
+	var user models.User
+	if rows.Next() {
+		// Getting user
+		if err = rows.Scan(
+			&user.ID,
+			&user.Pass,
+		); err != nil {
+			// We return an empty user if an error occurs
+			return models.User{}, err
+		}
+	}
+
+	// Returning the user data
+	return user, nil
+}
