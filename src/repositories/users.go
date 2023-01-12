@@ -292,3 +292,47 @@ func (repository Users) SearchFollowing(userID uint64) ([]models.User, error) {
 	// Returning the users slice
 	return users, nil
 }
+
+// SearchPassword returns a specific user password by its ID
+func (repository Users) SearchPassword(userID uint64) (string, error) {
+	// Executing the select statement
+	rows, err := repository.db.Query("select pass from users where id = ?", userID)
+	if err != nil {
+		// We return an empty string if an error occurs
+		return "", err
+	}
+	defer rows.Close()
+
+	// Reading row data
+	var user models.User
+	if rows.Next() {
+		// Getting user
+		if err = rows.Scan(&user.Pass); err != nil {
+			// We return an empty string if an error occurs
+			return "", err
+		}
+	}
+
+	// Returning the user password hash
+	return user.Pass, nil
+}
+
+// ChangePassword updates a specific user password by its ID
+func (repository Users) ChangePassword(userID uint64, hashPass string) error {
+	// Preparing the statement to execute the SQL query
+	statement, err := repository.db.Prepare(
+		"update users set pass = ? where id = ?",
+	)
+	if err != nil {
+		return err
+	}
+	defer statement.Close()
+
+	// Executing the change password statement
+	if _, err = statement.Exec(hashPass, userID); err != nil {
+		return err
+	}
+
+	// Returning the function
+	return nil
+}

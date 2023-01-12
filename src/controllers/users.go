@@ -6,6 +6,7 @@ import (
 	"api/src/models"
 	"api/src/repositories"
 	"api/src/responses"
+	"api/src/security"
 	"encoding/json"
 	"errors"
 	"io/ioutil"
@@ -406,4 +407,88 @@ func SearchFollowing(w http.ResponseWriter, r *http.Request) {
 
 	// Returning users response
 	responses.JSON(w, http.StatusOK, users)
+}
+
+// ChangePassword updates a specific user password on the database
+func ChangePassword(w http.ResponseWriter, r *http.Request) {
+	// Getting the request parameters
+	params := mux.Vars(r)
+
+	// Getting the user ID
+	userID, err := strconv.ParseUint(params["userId"], 10, 64)
+	if err != nil {
+		responses.Error(w, http.StatusBadRequest, err)
+		return
+	}
+
+	// Getting the user ID provided on the token
+	tokenUserID, err := authentication.ExtractUserID(r)
+	if err != nil {
+		responses.Error(w, http.StatusUnauthorized, err)
+		return
+	}
+
+	// If user is trying to change another user's password
+	if userID != tokenUserID {
+		responses.Error(w, http.StatusForbidden, errors.New("You cannot change another user's password"))
+		return
+	}
+
+	// Getting request body
+	requestBody, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		// If something goes wrong, we call the error response handling function
+		responses.Error(w, http.StatusUnprocessableEntity, err)
+		return
+	}
+
+	// Initializing the password change, reading data from the request body
+	var password models.Password
+	if err = json.Unmarshal(requestBody, &password); err != nil {
+		// If something goes wrong, we call the error response handling function
+		responses.Error(w, http.StatusBadRequest, err)
+		return
+	}
+
+	// Connecting to the database
+	db, err := database.Connect()
+	if err != nil {
+		// If something goes wrong, we call the error response handling function
+		responses.Error(w, http.StatusInternalServerError, err)
+		return
+	}
+	defer db.Close()
+
+	// Creating the users' repository
+	repository := repositories.NewUsersRepository(db)
+	// Checking if current password matches the user password
+	databaseHashPassword, err := repository.SearchPassword(userID)
+	if err != nil {
+		// If something goes wrong, we call the error response handling function
+		responses.Error(w, http.StatusInternalServerError, err)
+		return
+	}
+	if err = security.CheckPassword(password.Current, databaseHashPassword); err != nil {
+		// If something goes wrong, we call the error response handling function
+		responses.Error(w, http.StatusUnauthorized, errors.New("Incorrect current password"))
+		return
+	}
+
+	// Creating the new password hash
+	hashPassword, err := security.Hash(password.New)
+	if err != nil {
+		// If something goes wrong, we call the error response handling function
+		responses.Error(w, http.StatusBadRequest, err)
+		return
+	}
+
+	// Changing user's password
+	if err = repository.ChangePassword(userID, string(hashPassword)); err != nil {
+		// If something goes wrong, we call the error response handling function
+		responses.Error(w, http.StatusInternalServerError, err)
+		return
+	}
+
+	// If everything is ok
+	responses.JSON(w, http.StatusNoContent, nil)
 }
