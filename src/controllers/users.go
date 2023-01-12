@@ -372,3 +372,38 @@ func SearchFollowers(w http.ResponseWriter, r *http.Request) {
 	// Returning followers response
 	responses.JSON(w, http.StatusOK, followers)
 }
+
+// SearchFollowing searchs all users followed by another one
+func SearchFollowing(w http.ResponseWriter, r *http.Request) {
+	// Getting the request parameters
+	params := mux.Vars(r)
+
+	// Getting the user ID
+	userID, err := strconv.ParseUint(params["userId"], 10, 64)
+	if err != nil {
+		responses.Error(w, http.StatusBadRequest, err)
+		return
+	}
+
+	// Connecting to the database
+	db, err := database.Connect()
+	if err != nil {
+		// If something goes wrong, we call the error response handling function
+		responses.Error(w, http.StatusInternalServerError, err)
+		return
+	}
+	defer db.Close()
+
+	// Creating the users' repository
+	repository := repositories.NewUsersRepository(db)
+	// Searching users on the repository
+	users, err := repository.SearchFollowing(userID)
+	if err != nil {
+		// If something goes wrong, we call the error response handling function
+		responses.Error(w, http.StatusInternalServerError, err)
+		return
+	}
+
+	// Returning users response
+	responses.JSON(w, http.StatusOK, users)
+}
