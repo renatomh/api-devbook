@@ -36,7 +36,7 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Preparing user for insertion on database
-	if err := user.Preare("register"); err != nil {
+	if err := user.Prepare("register"); err != nil {
 		// If something goes wrong, we call the error response handling function
 		responses.Error(w, http.StatusBadRequest, err)
 		return
@@ -170,7 +170,7 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Preparing user for insertion on database
-	if err := user.Preare("edit"); err != nil {
+	if err := user.Prepare("edit"); err != nil {
 		// If something goes wrong, we call the error response handling function
 		responses.Error(w, http.StatusBadRequest, err)
 		return

@@ -20,7 +20,7 @@ type User struct {
 }
 
 // Prepare method calls the other methods to adeuqate user instance for insertion on database
-func (user *User) Preare(action string) error {
+func (user *User) Prepare(action string) error {
 	if err := user.validate(action); err != nil {
 		return err
 	}
