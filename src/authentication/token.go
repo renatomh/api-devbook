@@ -3,6 +3,10 @@ package authentication
 import (
 	// Importing package as an alias
 	"api/src/config"
+	"errors"
+	"fmt"
+	"net/http"
+	"strings"
 	"time"
 
 	jwt "github.com/dgrijalva/jwt-go"
@@ -21,4 +25,49 @@ func CreateToken(userID uint64) (string, error) {
 	// Signing the token and returning it
 	// The secret must be generated in a safe way and stored on the .env file
 	return token.SignedString([]byte(config.SecretKey))
+}
+
+// ValidateToken checks if token provided on the request is valid
+func ValidateToken(r *http.Request) error {
+	// Getting the token string
+	tokenString := extractToken(r)
+	// Parsing the token string
+	token, err := jwt.Parse(tokenString, returnVerificationKey)
+	if err != nil {
+		return err
+	}
+
+	// Checking if required claims are present on token and this is valid
+	if _, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
+		return nil
+	}
+
+	// Otherwise, we'll return the error
+	return errors.New("Invalid token")
+}
+
+// extractToken gets the token provided on the request headers
+func extractToken(r *http.Request) string {
+	// Getting the request token
+	token := r.Header.Get("Authorization")
+
+	// Checking if the "Bearer" string was included
+	if len(strings.Split(token, " ")) == 2 {
+		// Returning the token
+		return strings.Split(token, " ")[1]
+	}
+
+	// Otherwise, we return an empty string
+	return ""
+}
+
+// returnVerificationKey will return the token's verification key
+func returnVerificationKey(token *jwt.Token) (interface{}, error) {
+	// Checking signing method consistency
+	if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
+		return nil, fmt.Errorf("Unexpected signing method! %v", token.Header["alg"])
+	}
+
+	// Returning the token's verification key
+	return config.SecretKey, nil
 }

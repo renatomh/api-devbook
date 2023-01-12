@@ -57,7 +57,12 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Generating the user token
-	token, _ := authentication.CreateToken(databaseSavedUser.ID)
+	token, err := authentication.CreateToken(databaseSavedUser.ID)
+	if err != nil {
+		// If something goes wrong, we call the error response handling function
+		responses.Error(w, http.StatusInternalServerError, err)
+		return
+	}
 
 	w.Write([]byte(token))
 }
