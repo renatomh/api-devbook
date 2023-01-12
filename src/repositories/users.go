@@ -218,3 +218,40 @@ func (repository Users) Unfollow(userID, followerID uint64) error {
 	// If everything is ok, no error will be returned
 	return nil
 }
+
+// SearchFollowers returns an user followers by its ID
+func (repository Users) SearchFollowers(userID uint64) ([]models.User, error) {
+	// Executing the select statement
+	// Here, we're making a join between the users and followers tables
+	rows, err := repository.db.Query(`
+		select u.id, u.name, u.username, u.email, createdAt
+		from users u inner join followers f on u.id = f.follower_id
+		where f.user_id = ?`,
+		userID)
+	if err != nil {
+		// We return an empty user if an error occurs
+		return nil, err
+	}
+	defer rows.Close()
+
+	// Reading row data
+	var users []models.User
+	for rows.Next() {
+		// Getting user
+		var user models.User
+		if err = rows.Scan(
+			&user.ID,
+			&user.Name,
+			&user.Username,
+			&user.Email,
+			&user.CreatedAt,
+		); err != nil {
+			return nil, err
+		}
+		// Appending to the users list
+		users = append(users, user)
+	}
+
+	// Returning the users slice
+	return users, nil
+}

@@ -337,3 +337,38 @@ func UnfollowUser(w http.ResponseWriter, r *http.Request) {
 	// If everything is ok
 	responses.JSON(w, http.StatusNoContent, nil)
 }
+
+// SearchFollowers searchs all followers from an user
+func SearchFollowers(w http.ResponseWriter, r *http.Request) {
+	// Getting the request parameters
+	params := mux.Vars(r)
+
+	// Getting the user ID
+	userID, err := strconv.ParseUint(params["userId"], 10, 64)
+	if err != nil {
+		responses.Error(w, http.StatusBadRequest, err)
+		return
+	}
+
+	// Connecting to the database
+	db, err := database.Connect()
+	if err != nil {
+		// If something goes wrong, we call the error response handling function
+		responses.Error(w, http.StatusInternalServerError, err)
+		return
+	}
+	defer db.Close()
+
+	// Creating the users' repository
+	repository := repositories.NewUsersRepository(db)
+	// Searching followers on the repository
+	followers, err := repository.SearchFollowers(userID)
+	if err != nil {
+		// If something goes wrong, we call the error response handling function
+		responses.Error(w, http.StatusInternalServerError, err)
+		return
+	}
+
+	// Returning followers response
+	responses.JSON(w, http.StatusOK, followers)
+}
