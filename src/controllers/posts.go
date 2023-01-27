@@ -39,6 +39,13 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
 	// Setting the user ID as the post author ID
 	post.AuthorID = tokenUserID
 
+	// Preparing post for insertion on database
+	if err := post.Prepare(); err != nil {
+		// If something goes wrong, we call the error response handling function
+		responses.Error(w, http.StatusBadRequest, err)
+		return
+	}
+
 	// Connecting to the database
 	db, err := database.Connect()
 	if err != nil {

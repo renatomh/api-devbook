@@ -19,7 +19,7 @@ type User struct {
 	CreatedAt time.Time `json:"createdAt,omitempty"`
 }
 
-// Prepare method calls the other methods to adeuqate user instance for insertion on database
+// Prepare method calls the other methods to adequate user instance for insertion on database
 func (user *User) Prepare(action string) error {
 	if err := user.validate(action); err != nil {
 		return err

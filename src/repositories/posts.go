@@ -19,7 +19,7 @@ func NewPostsRepository(db *sql.DB) *Posts {
 func (repository Posts) Create(post models.Post) (uint64, error) {
 	// Preparing the insert statment
 	statement, err := repository.db.Prepare(
-		"insert into posts (title, content, author_id) values(?, ?, ?)",
+		"insert into posts (title, content, author_id) values (?, ?, ?)",
 	)
 	if err != nil {
 		return 0, err
