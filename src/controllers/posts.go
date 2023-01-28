@@ -74,8 +74,34 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
 
 // SearchPosts searchs users and following users posts (user's feed)
 func SearchPosts(w http.ResponseWriter, r *http.Request) {
-	// Returning response
-	responses.JSON(w, http.StatusOK, nil)
+	// Getting the user ID provided on the token
+	tokenUserID, err := authentication.ExtractUserID(r)
+	if err != nil {
+		responses.Error(w, http.StatusUnauthorized, err)
+		return
+	}
+
+	// Connecting to the database
+	db, err := database.Connect()
+	if err != nil {
+		// If something goes wrong, we call the error response handling function
+		responses.Error(w, http.StatusInternalServerError, err)
+		return
+	}
+	defer db.Close()
+
+	// Creating the posts' repository
+	repository := repositories.NewPostsRepository(db)
+	// Searching posts on the repository
+	posts, err := repository.Search(tokenUserID)
+	if err != nil {
+		// If something goes wrong, we call the error response handling function
+		responses.Error(w, http.StatusInternalServerError, err)
+		return
+	}
+
+	// Returning posts response
+	responses.JSON(w, http.StatusOK, posts)
 }
 
 // SearchPost search a specific post from the database

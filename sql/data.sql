@@ -17,3 +17,11 @@ VALUES
 (3, 1),
 (3, 2),
 (3, 5);
+
+INSERT INTO posts (title, content, author_id)
+VALUES
+("Jack Johnon's Post", "This is Jack Johnon's Post! Cool beans, bro!", 1),
+("Mark Rober's Post", "This is Mark Rober's Post! Off the charts, man!", 2),
+("Jack Daniels's Post", "This is Jack Daniels's Post! Keep walking!", 3),
+("Rup Green's Post", "This is Rup Green's Post! To infinity, and beyond!", 4),
+("Michael B.'s Post", "This is Michael B.'s Post! Ay, mate!", 5);

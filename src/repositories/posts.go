@@ -42,6 +42,46 @@ func (repository Posts) Create(post models.Post) (uint64, error) {
 	return uint64(lastInsertedId), nil
 }
 
+// Search posts from user and users followed by the user
+func (repository Posts) Search(userID uint64) ([]models.Post, error) {
+	// Executing the select statement
+	rows, err := repository.db.Query(
+		`select distinct p.*, u.username from posts p
+		inner join users u on u.id = p.author_id
+		inner join followers f on p.author_id = f.user_id
+		where p.author_id = ? or f.follower_id = ?
+		order by 1 desc;`,
+		userID, userID,
+	)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	// Reading rows data
+	var posts []models.Post
+	for rows.Next() {
+		// Getting post
+		var post models.Post
+		if err = rows.Scan(
+			&post.ID,
+			&post.Title,
+			&post.Content,
+			&post.AuthorID,
+			&post.Likes,
+			&post.CreatedAt,
+			&post.AuthorUsername,
+		); err != nil {
+			return nil, err
+		}
+		// Appending to the posts list
+		posts = append(posts, post)
+	}
+
+	// Returning the posts slice
+	return posts, nil
+}
+
 // SearchByID a specific post by its ID
 func (repository Posts) SearchByID(postID uint64) (models.Post, error) {
 	// Executing the select statement
