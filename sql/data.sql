@@ -24,4 +24,14 @@ VALUES
 ("Mark Rober's Post", "This is Mark Rober's Post! Off the charts, man!", 2),
 ("Jack Daniels's Post", "This is Jack Daniels's Post! Keep walking!", 3),
 ("Rup Green's Post", "This is Rup Green's Post! To infinity, and beyond!", 4),
-("Michael B.'s Post", "This is Michael B.'s Post! Ay, mate!", 5);
+("Michael B.'s Post", "This is Michael B.'s Post! Ay, mate!", 5),
+("Jack Johnon's Post", "This is another Jack Johnon's Post! Cool beans, bro!", 1),
+("Mark Rober's Post", "This is another Mark Rober's Post! Off the charts, man!", 2),
+("Jack Daniels's Post", "This is another Jack Daniels's Post! Keep walking!", 3),
+("Rup Green's Post", "This is another Rup Green's Post! To infinity, and beyond!", 4),
+("Michael B.'s Post", "This is another Michael B.'s Post! Ay, mate!", 5),
+("Jack Johnon's Post", "This is yet another Jack Johnon's Post! Cool beans, bro!", 1),
+("Mark Rober's Post", "This is yet another Mark Rober's Post! Off the charts, man!", 2),
+("Jack Daniels's Post", "This is yet another Jack Daniels's Post! Keep walking!", 3),
+("Rup Green's Post", "This is yet another Rup Green's Post! To infinity, and beyond!", 4),
+("Michael B.'s Post", "This is yet another Michael B.'s Post! Ay, mate!", 5);

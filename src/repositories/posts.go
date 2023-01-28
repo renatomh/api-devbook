@@ -139,3 +139,60 @@ func (repository Posts) Update(ID uint64, post models.Post) error {
 	// Returning the function
 	return nil
 }
+
+// Delete removes a specific post from the database
+func (repository Posts) Delete(ID uint64) error {
+	// Preparing the statement to execute the SQL query
+	statement, err := repository.db.Prepare("delete from posts where id = ?")
+	if err != nil {
+		return err
+	}
+	defer statement.Close()
+
+	// Executing the delete statement
+	if _, err = statement.Exec(ID); err != nil {
+		return err
+	}
+
+	// Returning the function
+	return nil
+}
+
+// SearchByUser returns a specific user posts
+func (repository Posts) SearchByUser(userID uint64) ([]models.Post, error) {
+	// Executing the select statement
+	rows, err := repository.db.Query(
+		`select p.*, u.username from posts p
+		inner join users u on u.id = p.author_id
+		where p.author_id = ?`,
+		userID,
+	)
+	if err != nil {
+		// We return an empty list if an error occurs
+		return nil, err
+	}
+	defer rows.Close()
+
+	// Reading rows data
+	var posts []models.Post
+	for rows.Next() {
+		// Getting post
+		var post models.Post
+		if err = rows.Scan(
+			&post.ID,
+			&post.Title,
+			&post.Content,
+			&post.AuthorID,
+			&post.Likes,
+			&post.CreatedAt,
+			&post.AuthorUsername,
+		); err != nil {
+			return nil, err
+		}
+		// Appending to the posts list
+		posts = append(posts, post)
+	}
+
+	// Returning the posts slice
+	return posts, nil
+}

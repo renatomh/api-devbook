@@ -221,6 +221,91 @@ func UpdatePost(w http.ResponseWriter, r *http.Request) {
 
 // DeletePost removes a specific post from the database
 func DeletePost(w http.ResponseWriter, r *http.Request) {
+	// Getting the request parameters
+	params := mux.Vars(r)
+
+	// Getting the post ID
+	postID, err := strconv.ParseUint(params["postId"], 10, 64)
+	if err != nil {
+		responses.Error(w, http.StatusBadRequest, err)
+		return
+	}
+
+	// Getting the user ID provided on the token
+	userID, err := authentication.ExtractUserID(r)
+	if err != nil {
+		responses.Error(w, http.StatusUnauthorized, err)
+		return
+	}
+
+	// Connecting to the database
+	db, err := database.Connect()
+	if err != nil {
+		// If something goes wrong, we call the error response handling function
+		responses.Error(w, http.StatusInternalServerError, err)
+		return
+	}
+	defer db.Close()
+
+	// Creating the posts' repository
+	repository := repositories.NewPostsRepository(db)
+
+	// Getting the post saved on the databse by the ID provided
+	savedPost, err := repository.SearchByID(postID)
+	if err != nil {
+		// If something goes wrong, we call the error response handling function
+		responses.Error(w, http.StatusInternalServerError, err)
+		return
+	}
+
+	// If user is trying to delete another user's post
+	if savedPost.AuthorID != userID {
+		responses.Error(w, http.StatusForbidden, errors.New("You cannot delete another user's post"))
+		return
+	}
+
+	// Deleting the existing post on the repository
+	if err = repository.Delete(postID); err != nil {
+		// If something goes wrong, we call the error response handling function
+		responses.Error(w, http.StatusInternalServerError, err)
+		return
+	}
+
 	// If everything is ok
 	responses.JSON(w, http.StatusNoContent, nil)
+}
+
+// SearchPostsByUser searchs a specific user posts
+func SearchPostsByUser(w http.ResponseWriter, r *http.Request) {
+	// Getting the request parameters
+	params := mux.Vars(r)
+
+	// Getting the user ID
+	userID, err := strconv.ParseUint(params["userId"], 10, 64)
+	if err != nil {
+		responses.Error(w, http.StatusBadRequest, err)
+		return
+	}
+
+	// Connecting to the database
+	db, err := database.Connect()
+	if err != nil {
+		// If something goes wrong, we call the error response handling function
+		responses.Error(w, http.StatusInternalServerError, err)
+		return
+	}
+	defer db.Close()
+
+	// Creating the posts' repository
+	repository := repositories.NewPostsRepository(db)
+	// Searching posts on the repository
+	posts, err := repository.SearchByUser(userID)
+	if err != nil {
+		// If something goes wrong, we call the error response handling function
+		responses.Error(w, http.StatusInternalServerError, err)
+		return
+	}
+
+	// Returning posts response
+	responses.JSON(w, http.StatusOK, posts)
 }
