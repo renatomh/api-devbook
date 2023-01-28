@@ -59,8 +59,49 @@ Then, you can use this command to run the app:
 $ ./api
 ```
 
+### ⌨ Linux
+In Linux systems, you can use the *api-devbook.service* file to run the application as a system service. The file must be updated and placed in the '/etc/systemd/system/' directory. After that, you should execute the following commands to enable and start the service:
+
+```bash
+$ sudo systemctl start api-devbook
+$ sudo systemctl enable api-devbook
+$ sudo systemctl status api-devbook
+```
+
+In order to serve the application with Nginx, it can be configured like so (adjusting the paths, server name, etc.):
+
+```
+# API DevBook
+server {
+    listen 80;
+    server_name api-devbook.mhsw.com.br;
+
+    location / {
+        include proxy_params;
+        proxy_pass http://localhost:5055;
+        client_max_body_size 16M;
+    }
+}
+```
+
+#### 📜 SSL/TLS
+
+You can also add security with SSL/TLS layer used for HTTPS protocol. One option is to use the free *Let's Encrypt* certificates.
+
+For this, you must [install the *Certbot*'s package](https://certbot.eff.org/instructions) and use its *plugin*, with the following commands (also, adjusting the srver name):
+
+```bash
+$ sudo apt install snapd # Installs snapd
+$ sudo snap install core; sudo snap refresh core # Ensures snapd version is up to date
+$ sudo snap install --classic certbot # Installs Certbot
+$ sudo ln -s /snap/bin/certbot /usr/bin/certbot # Prepares the Certbot command
+$ sudo certbot --nginx -d api-devbook.mhsw.com.br
+```
+
 ### Documentation:
 * [A Tour of Go](https://go.dev/tour/welcome/1)
+* [How To Install Go on Ubuntu 20.04](https://www.digitalocean.com/community/tutorials/how-to-install-go-on-ubuntu-20-04)
+* [How To Deploy a Go Web Application Using Nginx on Ubuntu 18.04](https://www.digitalocean.com/community/tutorials/how-to-deploy-a-go-web-application-using-nginx-on-ubuntu-18-04)
 
 ## 📄 License
 

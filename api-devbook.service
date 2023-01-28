@@ -1,0 +1,17 @@
+# Service for Ubuntu/Unix systems
+# This file should be located at '/etc/systemd/system/'
+
+[Unit]
+Description=Instance to serve the DevBook API
+After=network.target
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=5s
+# Should be updated to the app path/env
+WorkingDirectory=/home/mhsw/systems/api-devbook
+ExecStart=/home/mhsw/systems/api-devbook/api
+
+[Install]
+WantedBy=multi-user.target
