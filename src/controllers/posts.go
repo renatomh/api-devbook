@@ -309,3 +309,38 @@ func SearchPostsByUser(w http.ResponseWriter, r *http.Request) {
 	// Returning posts response
 	responses.JSON(w, http.StatusOK, posts)
 }
+
+// LikePost adds 1 to the number of likes in a post
+func LikePost(w http.ResponseWriter, r *http.Request) {
+	// Getting the request parameters
+	params := mux.Vars(r)
+
+	// Getting the post ID
+	postID, err := strconv.ParseUint(params["postId"], 10, 64)
+	if err != nil {
+		responses.Error(w, http.StatusBadRequest, err)
+		return
+	}
+
+	// Connecting to the database
+	db, err := database.Connect()
+	if err != nil {
+		// If something goes wrong, we call the error response handling function
+		responses.Error(w, http.StatusInternalServerError, err)
+		return
+	}
+	defer db.Close()
+
+	// Creating the posts' repository
+	repository := repositories.NewPostsRepository(db)
+
+	// Liking the existing post on the repository
+	if err = repository.Like(postID); err != nil {
+		// If something goes wrong, we call the error response handling function
+		responses.Error(w, http.StatusInternalServerError, err)
+		return
+	}
+
+	// If everything is ok
+	responses.JSON(w, http.StatusNoContent, nil)
+}
