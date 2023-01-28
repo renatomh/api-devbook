@@ -119,3 +119,23 @@ func (repository Posts) SearchByID(postID uint64) (models.Post, error) {
 	// Returning the post data
 	return post, nil
 }
+
+// Update will edit a specific post data by its ID
+func (repository Posts) Update(ID uint64, post models.Post) error {
+	// Preparing the statement to execute the SQL query
+	statement, err := repository.db.Prepare(
+		"update posts set title = ?, content = ? where id = ?",
+	)
+	if err != nil {
+		return err
+	}
+	defer statement.Close()
+
+	// Executing the update statement
+	if _, err = statement.Exec(post.Title, post.Content, ID); err != nil {
+		return err
+	}
+
+	// Returning the function
+	return nil
+}
