@@ -27,6 +27,12 @@ During the development of this project, the following techologies were used:
 
 * The project was developed using MySQL;
 
+### Then, install the dependencies for the project
+
+```bash
+$ go mod download
+```
+
 ## 🌐 Setting up config files
 
 Create an *.env* file on the root directory, with all needed variables, credentials and API keys, according to the sample provided (*example.env*).
@@ -47,10 +53,10 @@ In order to build the application and get the executable file, use the following
 $ go build
 ```
 
-Then, you can use this command to run the app (it'll show the application's available commands and options):
+Then, you can use this command to run the app:
 
 ```bash
-$ ./cli-app
+$ ./api
 ```
 
 ### Documentation:
