@@ -344,3 +344,38 @@ func LikePost(w http.ResponseWriter, r *http.Request) {
 	// If everything is ok
 	responses.JSON(w, http.StatusNoContent, nil)
 }
+
+// DislikePost subtracts 1 from the number of likes in a post
+func DislikePost(w http.ResponseWriter, r *http.Request) {
+	// Getting the request parameters
+	params := mux.Vars(r)
+
+	// Getting the post ID
+	postID, err := strconv.ParseUint(params["postId"], 10, 64)
+	if err != nil {
+		responses.Error(w, http.StatusBadRequest, err)
+		return
+	}
+
+	// Connecting to the database
+	db, err := database.Connect()
+	if err != nil {
+		// If something goes wrong, we call the error response handling function
+		responses.Error(w, http.StatusInternalServerError, err)
+		return
+	}
+	defer db.Close()
+
+	// Creating the posts' repository
+	repository := repositories.NewPostsRepository(db)
+
+	// Disliking the existing post on the repository
+	if err = repository.Dislike(postID); err != nil {
+		// If something goes wrong, we call the error response handling function
+		responses.Error(w, http.StatusInternalServerError, err)
+		return
+	}
+
+	// If everything is ok
+	responses.JSON(w, http.StatusNoContent, nil)
+}

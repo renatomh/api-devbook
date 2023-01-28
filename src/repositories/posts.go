@@ -216,3 +216,28 @@ func (repository Posts) Like(postID uint64) error {
 	// Returning the function
 	return nil
 }
+
+// Dislike will subtract 1 from the number of likes in a post
+func (repository Posts) Dislike(postID uint64) error {
+	// Preparing the statement to execute the SQL query
+	statement, err := repository.db.Prepare(
+		`update posts set likes = 
+		CASE
+			WHEN likes > 0 THEN likes - 1
+			ELSE 0
+		END
+		where id = ?`,
+	)
+	if err != nil {
+		return err
+	}
+	defer statement.Close()
+
+	// Executing the update statement
+	if _, err = statement.Exec(postID); err != nil {
+		return err
+	}
+
+	// Returning the function
+	return nil
+}
