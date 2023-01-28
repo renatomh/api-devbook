@@ -1,0 +1,2180 @@
+{
+	"info": {
+		"_postman_id": "65570b31-a5af-4220-87bf-7c762e5515f0",
+		"name": "API DevBook",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "9267120"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"postman.setEnvironmentVariable(\"token\", responseBody);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"jack.johson34@email.com\",\r\n    \"pass\": \"123456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/login",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"m.bubb2@email.com\",\r\n    \"pass\": \"123456\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/login",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"login"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Thu, 12 Jan 2023 14:32:29 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "145"
+								},
+								{
+									"key": "Content-Type",
+									"value": "text/plain; charset=utf-8"
+								}
+							],
+							"cookie": [],
+							"body": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRob3JpemVkIjp0cnVlLCJleHAiOjE2NzM1NTU1NDksInVzZXJJZCI6MTB9.NSvbylrwA1qMB8P-uBEO0OkAck2KnMuaPLiR6M9K9w8"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Get User",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/users/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users",
+								"1"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/users/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"users",
+										"1"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 09 Jan 2023 14:22:48 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "132"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 1,\n    \"name\": \"Jack Johnson\",\n    \"username\": \"jack.johson34\",\n    \"email\": \"jack.johson34@email.com\",\n    \"createdAt\": \"2023-01-07T18:23:19-03:00\"\n}"
+						},
+						{
+							"name": "OK - Authenticated",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/users/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"users",
+										"1"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 12 Jan 2023 17:35:54 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "132"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 1,\n    \"name\": \"Jack Johnson\",\n    \"username\": \"jack.johson34\",\n    \"email\": \"jack.johson34@email.com\",\n    \"createdAt\": \"2023-01-07T18:23:19-03:00\"\n}"
+						}
+					]
+				},
+				{
+					"name": "List Users",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/users?user=jack",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users"
+							],
+							"query": [
+								{
+									"key": "user",
+									"value": "jack"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK - All",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/users",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"users"
+									],
+									"query": [
+										{
+											"key": "user",
+											"value": "jack",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 09 Jan 2023 14:05:22 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "385"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"id\": 1,\n        \"name\": \"Jack Johnson\",\n        \"username\": \"jack.johson34\",\n        \"email\": \"jack.johson34@email.com\",\n        \"createdAt\": \"2023-01-07T18:23:19-03:00\"\n    },\n    {\n        \"id\": 2,\n        \"name\": \"Mark Rober\",\n        \"username\": \"mark.rober23\",\n        \"email\": \"mark.rober@email.com\",\n        \"createdAt\": \"2023-01-09T10:21:28-03:00\"\n    },\n    {\n        \"id\": 4,\n        \"name\": \"Jack Daniels\",\n        \"username\": \"jackdan\",\n        \"email\": \"jack.dani487@email.com\",\n        \"createdAt\": \"2023-01-09T10:38:14-03:00\"\n    }\n]"
+						},
+						{
+							"name": "OK - Filtered",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/users?user=jack",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"users"
+									],
+									"query": [
+										{
+											"key": "user",
+											"value": "jack"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 09 Jan 2023 14:05:10 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "259"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"id\": 1,\n        \"name\": \"Jack Johnson\",\n        \"username\": \"jack.johson34\",\n        \"email\": \"jack.johson34@email.com\",\n        \"createdAt\": \"2023-01-07T18:23:19-03:00\"\n    },\n    {\n        \"id\": 4,\n        \"name\": \"Jack Daniels\",\n        \"username\": \"jackdan\",\n        \"email\": \"jack.dani487@email.com\",\n        \"createdAt\": \"2023-01-09T10:38:14-03:00\"\n    }\n]"
+						},
+						{
+							"name": "OK - Authenticated",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/users?user=jack",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"users"
+									],
+									"query": [
+										{
+											"key": "user",
+											"value": "jack"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 12 Jan 2023 17:36:23 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "388"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"id\": 1,\n        \"name\": \"Jack Johnson\",\n        \"username\": \"jack.johson34\",\n        \"email\": \"jack.johson34@email.com\",\n        \"createdAt\": \"2023-01-07T18:23:19-03:00\"\n    },\n    {\n        \"id\": 4,\n        \"name\": \"Jack Daniels\",\n        \"username\": \"jackdan12\",\n        \"email\": \"jack.dani487@email.com\",\n        \"createdAt\": \"2023-01-09T10:38:14-03:00\"\n    },\n    {\n        \"id\": 9,\n        \"name\": \"Jack Daniels\",\n        \"username\": \"jackdan1\",\n        \"email\": \"jack.dani4871@email.com\",\n        \"createdAt\": \"2023-01-11T17:12:41-03:00\"\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "Create User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Ron W. S.\",\r\n    \"username\": \"ronw.s\",\r\n    \"email\": \"ronws@email.com\",\r\n    \"pass\": \"123456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/users",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Jack Johnson\",\r\n    \"username\": \"jack.johson34\",\r\n    \"email\": \"jack.johson34@email.com\",\r\n    \"pass\": \"123456\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/users",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"users"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Sat, 07 Jan 2023 21:15:09 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "14"
+								},
+								{
+									"key": "Content-Type",
+									"value": "text/plain; charset=utf-8"
+								}
+							],
+							"cookie": [],
+							"body": "Inserted ID: 1"
+						},
+						{
+							"name": "OK - JSON",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Mark Rober\",\r\n    \"username\": \"mark.rober23\",\r\n    \"email\": \"mark.rober@email.com\",\r\n    \"pass\": \"123456\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/users",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"users"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 09 Jan 2023 13:21:28 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "137"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 2,\n    \"name\": \"Mark Rober\",\n    \"username\": \"mark.rober23\",\n    \"email\": \"mark.rober@email.com\",\n    \"pass\": \"123456\",\n    \"createdAt\": \"0001-01-01T00:00:00Z\"\n}"
+						},
+						{
+							"name": "OK - Auto Format",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"     Jack Daniels    \",\r\n    \"username\": \"     jackdan   \",\r\n    \"email\": \"     jack.dani487@email.com     \",\r\n    \"pass\": \"123456\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/users",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"users"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 09 Jan 2023 13:38:14 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "136"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 4,\n    \"name\": \"Jack Daniels\",\n    \"username\": \"jackdan\",\n    \"email\": \"jack.dani487@email.com\",\n    \"pass\": \"123456\",\n    \"createdAt\": \"0001-01-01T00:00:00Z\"\n}"
+						},
+						{
+							"name": "OK - Hash Password",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Michael B.\",\r\n    \"username\": \"m.bubb2\",\r\n    \"email\": \"m.bubb2@email.com\",\r\n    \"pass\": \"123456\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/users",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"users"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 11 Jan 2023 20:13:09 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "184"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 10,\n    \"name\": \"Michael B.\",\n    \"username\": \"m.bubb2\",\n    \"email\": \"m.bubb2@email.com\",\n    \"pass\": \"$2a$10$sCibK7TC9wWQ8LfmF8pGTu2AX3kOv3RhiqbVyEMzI4ELMyClsLW.G\",\n    \"createdAt\": \"0001-01-01T00:00:00Z\"\n}"
+						},
+						{
+							"name": "Duplicate Key Error",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Mark Rober\",\r\n    \"username\": \"mark.rober23\",\r\n    \"email\": \"mark.rober@email.com\",\r\n    \"pass\": \"123456\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/users",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"users"
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 09 Jan 2023 13:22:10 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "88"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": \"Error 1062 (23000): Duplicate entry 'mark.rober23' for key 'users.username'\"\n}"
+						},
+						{
+							"name": "Validation Error",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": null,\r\n    \"username\": \"mark.rober23\",\r\n    \"email\": \"mark.rober@email.com\",\r\n    \"pass\": \"123456\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/users",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"users"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 09 Jan 2023 13:35:52 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "59"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": \"Name is a required field, cannot be left blank\"\n}"
+						},
+						{
+							"name": "Emall Format Error",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Rup Green\",\r\n    \"username\": \"rupgr42\",\r\n    \"email\": \"InvalidEmailAddress\",\r\n    \"pass\": \"123456\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/users",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"users"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 11 Jan 2023 19:59:20 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "38"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": \"Email format is not valid\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Change Password",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"current\": \"123456\",\r\n    \"new\": \"123456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/users/1/change-password",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users",
+								"1",
+								"change-password"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"current\": \"123456\",\r\n    \"new\": \"1234567\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/users/1/change-password",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"users",
+										"1",
+										"change-password"
+									]
+								}
+							},
+							"status": "No Content",
+							"code": 204,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 12 Jan 2023 19:56:45 GMT"
+								}
+							],
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "Incorrect Password",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"current\": \"IncorrectPassword\",\r\n    \"new\": \"123456\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/users/1/change-password",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"users",
+										"1",
+										"change-password"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 12 Jan 2023 19:57:06 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "39"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": \"Incorrect current password\"\n}"
+						},
+						{
+							"name": "Forbidden User Password Change",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"current\": \"123456\",\r\n    \"new\": \"123456\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/users/2/change-password",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"users",
+										"2",
+										"change-password"
+									]
+								}
+							},
+							"status": "Forbidden",
+							"code": 403,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 12 Jan 2023 19:57:31 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "54"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": \"You cannot change another user's password\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Update User",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Jack Daniels\",\r\n    \"username\": \"jackdan12\",\r\n    \"email\": \"jack.dani487@email.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/users/4",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users",
+								"4"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Jack Daniels\",\r\n    \"username\": \"jackdan12\",\r\n    \"email\": \"jack.dani487@email.com\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/users/4",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"users",
+										"4"
+									]
+								}
+							},
+							"status": "No Content",
+							"code": 204,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 11 Jan 2023 18:54:49 GMT"
+								}
+							],
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "Forbidden User Error",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Jack Daniels\",\r\n    \"username\": \"jackdan12\",\r\n    \"email\": \"jack.dani487@email.com\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/users/4",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"users",
+										"4"
+									]
+								}
+							},
+							"status": "Forbidden",
+							"code": 403,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 12 Jan 2023 17:25:49 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "50"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": \"You cannot update another user's data\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete User",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/users/11",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users",
+								"11"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/users/7",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"users",
+										"7"
+									]
+								}
+							},
+							"status": "No Content",
+							"code": 204,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 11 Jan 2023 19:54:15 GMT"
+								}
+							],
+							"cookie": [],
+							"body": null
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Followers",
+			"item": [
+				{
+					"name": "Follow User",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/users/2/follow",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users",
+								"2",
+								"follow"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/users/2/follow",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"users",
+										"2",
+										"follow"
+									]
+								}
+							},
+							"status": "No Content",
+							"code": 204,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 12 Jan 2023 18:26:52 GMT"
+								}
+							],
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "Self Follow Error",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/users/1/follow",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"users",
+										"1",
+										"follow"
+									]
+								}
+							},
+							"status": "Forbidden",
+							"code": 403,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 12 Jan 2023 18:26:38 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "39"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": \"You cannot follow yourself\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Unfollow User",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/users/2/unfollow",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users",
+								"2",
+								"unfollow"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/users/2/unfollow",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"users",
+										"2",
+										"unfollow"
+									]
+								}
+							},
+							"status": "No Content",
+							"code": 204,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 12 Jan 2023 18:42:15 GMT"
+								}
+							],
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "Self Unfollow Error",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/users/1/unfollow",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"users",
+										"1",
+										"unfollow"
+									]
+								}
+							},
+							"status": "Forbidden",
+							"code": 403,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 12 Jan 2023 18:42:59 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "41"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": \"You cannot unfollow yourself\"\n}"
+						}
+					]
+				},
+				{
+					"name": "List Followers",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/users/1/followers",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users",
+								"1",
+								"followers"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/users/1/followers",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"users",
+										"1",
+										"followers"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 12 Jan 2023 18:57:47 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "489"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"id\": 2,\n        \"name\": \"Mark Rober\",\n        \"username\": \"mark.rober23\",\n        \"email\": \"mark.rober@email.com\",\n        \"createdAt\": \"2023-01-12T15:00:39-03:00\"\n    },\n    {\n        \"id\": 3,\n        \"name\": \"Jack Daniels\",\n        \"username\": \"jackdan12\",\n        \"email\": \"jack.dani487@email.com\",\n        \"createdAt\": \"2023-01-12T15:00:39-03:00\"\n    },\n    {\n        \"id\": 4,\n        \"name\": \"Rup Green\",\n        \"username\": \"rupgr42\",\n        \"email\": \"rubgreen@invalid\",\n        \"createdAt\": \"2023-01-12T15:00:39-03:00\"\n    },\n    {\n        \"id\": 5,\n        \"name\": \"Michael B.\",\n        \"username\": \"m.bubb2\",\n        \"email\": \"m.bubb2@email.com\",\n        \"createdAt\": \"2023-01-12T15:00:39-03:00\"\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "List Following",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/users/3/following",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users",
+								"3",
+								"following"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/users/3/following",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"users",
+										"3",
+										"following"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 12 Jan 2023 19:06:27 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "260"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"id\": 1,\n        \"name\": \"Jack Johnson\",\n        \"username\": \"jack.johson34\",\n        \"email\": \"jack.johson34@email.com\",\n        \"createdAt\": \"2023-01-12T15:00:39-03:00\"\n    },\n    {\n        \"id\": 2,\n        \"name\": \"Mark Rober\",\n        \"username\": \"mark.rober23\",\n        \"email\": \"mark.rober@email.com\",\n        \"createdAt\": \"2023-01-12T15:00:39-03:00\"\n    }\n]"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Posts",
+			"item": [
+				{
+					"name": "Get Post",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/posts/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"posts",
+								"1"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/posts/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"posts",
+										"1"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 27 Jan 2023 14:42:55 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "188"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 1,\n    \"title\": \"My First Post\",\n    \"content\": \"Hello, DevBook! This is my first post! Cheers!\",\n    \"authorId\": 1,\n    \"authorUsername\": \"jack.johson34\",\n    \"likes\": 0,\n    \"createdAt\": \"2023-01-12T18:23:44-03:00\"\n}"
+						}
+					]
+				},
+				{
+					"name": "List Posts",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/posts",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"posts"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/posts",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"posts"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 28 Jan 2023 17:59:25 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1772"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"id\": 13,\n        \"title\": \"Jack Daniels's Post\",\n        \"content\": \"This is yet another Jack Daniels's Post! Keep walking!\",\n        \"authorId\": 3,\n        \"authorUsername\": \"jackdan12\",\n        \"likes\": 0,\n        \"createdAt\": \"2023-01-28T14:57:56-03:00\"\n    },\n    {\n        \"id\": 12,\n        \"title\": \"Mark Rober's Post\",\n        \"content\": \"This is yet another Mark Rober's Post! Off the charts, man!\",\n        \"authorId\": 2,\n        \"authorUsername\": \"mark.rober23\",\n        \"likes\": 0,\n        \"createdAt\": \"2023-01-28T14:57:56-03:00\"\n    },\n    {\n        \"id\": 11,\n        \"title\": \"Jack Johnon's Post\",\n        \"content\": \"This is yet another Jack Johnon's Post! Cool beans, bro!\",\n        \"authorId\": 1,\n        \"authorUsername\": \"jack.johson34\",\n        \"likes\": 0,\n        \"createdAt\": \"2023-01-28T14:57:56-03:00\"\n    },\n    {\n        \"id\": 8,\n        \"title\": \"Jack Daniels's Post\",\n        \"content\": \"This is another Jack Daniels's Post! Keep walking!\",\n        \"authorId\": 3,\n        \"authorUsername\": \"jackdan12\",\n        \"likes\": 0,\n        \"createdAt\": \"2023-01-28T14:57:56-03:00\"\n    },\n    {\n        \"id\": 7,\n        \"title\": \"Mark Rober's Post\",\n        \"content\": \"This is another Mark Rober's Post! Off the charts, man!\",\n        \"authorId\": 2,\n        \"authorUsername\": \"mark.rober23\",\n        \"likes\": 0,\n        \"createdAt\": \"2023-01-28T14:57:56-03:00\"\n    },\n    {\n        \"id\": 6,\n        \"title\": \"Jack Johnon's Post\",\n        \"content\": \"This is another Jack Johnon's Post! Cool beans, bro!\",\n        \"authorId\": 1,\n        \"authorUsername\": \"jack.johson34\",\n        \"likes\": 0,\n        \"createdAt\": \"2023-01-28T14:57:56-03:00\"\n    },\n    {\n        \"id\": 3,\n        \"title\": \"Jack Daniels's Post\",\n        \"content\": \"This is Jack Daniels's Post! Keep walking!\",\n        \"authorId\": 3,\n        \"authorUsername\": \"jackdan12\",\n        \"likes\": 0,\n        \"createdAt\": \"2023-01-28T14:57:56-03:00\"\n    },\n    {\n        \"id\": 2,\n        \"title\": \"Mark Rober's Post\",\n        \"content\": \"This is Mark Rober's Post! Off the charts, man!\",\n        \"authorId\": 2,\n        \"authorUsername\": \"mark.rober23\",\n        \"likes\": 0,\n        \"createdAt\": \"2023-01-28T14:57:56-03:00\"\n    },\n    {\n        \"id\": 1,\n        \"title\": \"Jack Johnon's Post\",\n        \"content\": \"This is Jack Johnon's Post! Cool beans, bro!\",\n        \"authorId\": 1,\n        \"authorUsername\": \"jack.johson34\",\n        \"likes\": 0,\n        \"createdAt\": \"2023-01-28T14:57:56-03:00\"\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "List User Posts",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/users/1/posts",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users",
+								"1",
+								"posts"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/users/1/posts",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"users",
+										"1",
+										"posts"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 28 Jan 2023 17:58:31 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "596"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"id\": 1,\n        \"title\": \"Jack Johnon's Post\",\n        \"content\": \"This is Jack Johnon's Post! Cool beans, bro!\",\n        \"authorId\": 1,\n        \"authorUsername\": \"jack.johson34\",\n        \"likes\": 0,\n        \"createdAt\": \"2023-01-28T14:57:56-03:00\"\n    },\n    {\n        \"id\": 6,\n        \"title\": \"Jack Johnon's Post\",\n        \"content\": \"This is another Jack Johnon's Post! Cool beans, bro!\",\n        \"authorId\": 1,\n        \"authorUsername\": \"jack.johson34\",\n        \"likes\": 0,\n        \"createdAt\": \"2023-01-28T14:57:56-03:00\"\n    },\n    {\n        \"id\": 11,\n        \"title\": \"Jack Johnon's Post\",\n        \"content\": \"This is yet another Jack Johnon's Post! Cool beans, bro!\",\n        \"authorId\": 1,\n        \"authorUsername\": \"jack.johson34\",\n        \"likes\": 0,\n        \"createdAt\": \"2023-01-28T14:57:56-03:00\"\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "Create Post",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"My Second Post\",\r\n    \"content\": \"Hello, DevBook! This is my second post! Cheers once again!\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/posts",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"posts"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\": \"My First Post\",\r\n    \"content\": \"Hello, DevBook! This is my first post! Cheers!\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/posts",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"posts"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 12 Jan 2023 21:23:44 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "150"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 1,\n    \"title\": \"My First Post\",\n    \"content\": \"Hello, DevBook! This is my first post! Cheers!\",\n    \"authorId\": 1,\n    \"likes\": 0,\n    \"createdAt\": \"0001-01-01T00:00:00Z\"\n}"
+						},
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\": \"My Second Post\",\r\n    \"content\": \"Hello, DevBook! This is my second post! Cheers once again!\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/posts",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"posts"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 12 Jan 2023 21:24:21 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "163"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 2,\n    \"title\": \"My Second Post\",\n    \"content\": \"Hello, DevBook! This is my second post! Cheers once again!\",\n    \"authorId\": 1,\n    \"likes\": 0,\n    \"createdAt\": \"0001-01-01T00:00:00Z\"\n}"
+						},
+						{
+							"name": "No Title Error",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\": \"\",\r\n    \"content\": \"Hello, DevBook! This is my second post! Cheers once again!\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/posts",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"posts"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 27 Jan 2023 14:30:58 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "60"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": \"Title is a required field, cannot be left blank\"\n}"
+						},
+						{
+							"name": "No Content Error",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\": \"My Second Post\",\r\n    \"content\": \"\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/posts",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"posts"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 27 Jan 2023 14:30:37 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "62"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": \"Content is a required field, cannot be left blank\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Like Post",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/posts/1/like",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"posts",
+								"1",
+								"like"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/posts/1/like",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"posts",
+										"1",
+										"like"
+									]
+								}
+							},
+							"status": "No Content",
+							"code": 204,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 28 Jan 2023 18:08:58 GMT"
+								}
+							],
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Dislike Post",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/posts/1/dislike",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"posts",
+								"1",
+								"dislike"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/posts/1/dislike",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"posts",
+										"1",
+										"dislike"
+									]
+								}
+							},
+							"status": "No Content",
+							"code": 204,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 28 Jan 2023 18:20:02 GMT"
+								}
+							],
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Update Post",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"Jack Johnon's Post\",\r\n    \"content\": \"This is Jack Johnon's updated Post! Cool beans, bro!\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/posts/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"posts",
+								"1"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\": \"Jack Johnon's Post\",\r\n    \"content\": \"This is Jack Johnon's updated Post! Cool beans, bro!\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/posts/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"posts",
+										"1"
+									]
+								}
+							},
+							"status": "No Content",
+							"code": 204,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 28 Jan 2023 17:38:33 GMT"
+								}
+							],
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "Forbidden User Error",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\": \"Mark Rober's Post\",\r\n    \"content\": \"This is Mark Rober's updated Post! Off the charts, man!\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/posts/2",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"posts",
+										"2"
+									]
+								}
+							},
+							"status": "Forbidden",
+							"code": 403,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 28 Jan 2023 17:38:58 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "50"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": \"You cannot update another user's post\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete Post",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/posts/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"posts",
+								"1"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/posts/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"posts",
+										"1"
+									]
+								}
+							},
+							"status": "No Content",
+							"code": 204,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 28 Jan 2023 17:45:18 GMT"
+								}
+							],
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "Forbidden User Error",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/posts/2",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"posts",
+										"2"
+									]
+								}
+							},
+							"status": "Forbidden",
+							"code": 403,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 28 Jan 2023 17:44:59 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "50"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": \"You cannot delete another user's post\"\n}"
+						}
+					]
+				}
+			]
+		}
+	]
+}
